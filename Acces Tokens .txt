@@ -1,0 +1,7 @@
+Oh, so instead of the person having to log in every 15 minutes he will only log in every 7 days and during those 7 days the cookies will automatically send the access tokens?
+
+Access Token: 15 minutes
+
+Refresh Tokens: 7 days
+
+Cookies: will send the user data to the refresh token so it can send the access token
