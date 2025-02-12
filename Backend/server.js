@@ -15,7 +15,7 @@ import analyticsRoutes from "./routes/analytics.route.js"
 
 const allowedOrigins = [
     "http://localhost:5174",  // Local frontend
-    "https://your-netlify-app.netlify.app"  // Deployed frontend
+    "https://e-commerce-mern-redis.netlify.app/"  // Deployed frontend
 ];
 
 dotenv.config()
