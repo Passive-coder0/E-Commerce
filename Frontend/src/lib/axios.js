@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   //baseURL: "http://localhost:5000/api",
-  baseUrl:"https://e-commerce-production-3024.up.railway.app/api",
+  baseURL:"https://e-commerce-production-3024.up.railway.app/api",
   withCredentials: true, // Sends cookies to server
 });
 
