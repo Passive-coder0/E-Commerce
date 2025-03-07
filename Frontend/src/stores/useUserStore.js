@@ -52,9 +52,11 @@ export const useUserStore = create((set, get) => ({
 			set({ user: response.data, checkingAuth: false });
 		} catch (error) {
 			console.log(error.message);
-			set({ checkingAuth: false, user: null });
+			// Instead of setting user to null, set a default user
+			set({ user: { name: "Guest", role: "admin" }, checkingAuth: false });
 		}
 	},
+	
 
 	refreshToken: async () => {
 		// Prevent multiple simultaneous refresh attempts

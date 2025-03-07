@@ -40,20 +40,25 @@ const CategoryPage = () => {
               <h2 className="text-3xl font-semibold text-gray-300">
                 No products found
               </h2>
-              <div className="mt-10">
-                <Link
-                  className="rounded-md bg-emerald-500 px-6 py-2 text-white transition-colors hover:bg-emerald-600"
-                  to="/"
-                >
-                  Back To Shopping
-                </Link>
-              </div>
             </div>
           ) : (
             products?.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           )}
+        </motion.div>
+        <motion.div
+          className="mt-10 flex justify-center items-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <Link
+            className="rounded-md bg-emerald-500 px-6 py-2 text-white transition-colors hover:bg-emerald-600"
+            to="/"
+          >
+            Back To Shopping
+          </Link>{" "}
         </motion.div>
       </div>
     </div>

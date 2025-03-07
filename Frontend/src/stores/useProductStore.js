@@ -22,13 +22,21 @@ export const useProductStore = create((set) => ({
   },
   fetchAllProducts: async () => {
     set({ loading: true });
+
     try {
       const response = await axios.get("/products");
       set({ products: response.data.products, loading: false });
-      
     } catch (error) {
-      set({ error: "Failed to fetch products", loading: false });
-      toast.error(error.response.data.error || "Failed to fetch products");
+      console.error("Fetching products failed:", error);
+
+      // If unauthorized, allow the page to still function
+      if (error.response?.status === 401) {
+        set({ products: [], loading: false });
+        toast.error("You're not authorized, but you can still browse.");
+      } else {
+        set({ error: "Failed to fetch products", loading: false });
+        toast.error(error.response?.data?.error || "Failed to fetch products");
+      }
     }
   },
 
@@ -86,5 +94,4 @@ export const useProductStore = create((set) => ({
       console.log("Error fetching featured products:", error);
     }
   },
-}
-));
+}));

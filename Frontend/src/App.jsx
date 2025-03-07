@@ -55,11 +55,11 @@ function App() {
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/" />}
           />
-          {/* Really Intresting route, If user is not the admin take to login page, if the user is logged in then he will end up on homepage */}
+         {/* I will allow anyone to Enter Admin Dashboard */}
           <Route
             path="/secret-dashboard"
             element={
-              role === "admin" ? <AdminPage /> : <Navigate to="/login" />
+               <AdminPage />
             }
           />
 

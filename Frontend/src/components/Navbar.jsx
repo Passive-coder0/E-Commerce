@@ -1,99 +1,102 @@
-import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ShoppingCart, UserPlus, LogIn, LogOut, Lock, Menu, X } from "lucide-react";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
+import logo from "/icon.png";
 
 const Navbar = () => {
-	const { user, logout } = useUserStore();
-	const { cart } = useCartStore();
+  const { user, logout } = useUserStore();
+  const { cart } = useCartStore();
   const [isAdmin, setIsAdmin] = useState("customer");
+  const [menuOpen, setMenuOpen] = useState(false); // Controls the burger menu
 
-useEffect(() => {
-  if (user?.user?.role === "admin") {
-    setIsAdmin("admin");
-  }
-}, [user]);
+  useEffect(() => {
+    if (user?.user?.role === "admin") {
+      setIsAdmin("admin");
+    }
+  }, [user]);
 
+  return (
+    <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 border-b border-emerald-800">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        {/* This is the Logo */}
+        <Link to="/" className="text-3xl font-bold text-emerald-400 flex items-center gap-2">
+          <img src={logo} alt="Logo Image" width="30px" height="30px" />
+          E-Commerce
+        </Link>
 
-	return (
-		<header className='fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 border-b border-emerald-800'>
-			<div className='container mx-auto px-4 py-3'>
-				<div className='flex flex-wrap justify-between items-center'>
-					<Link to='/' className='text-2xl font-bold text-emerald-400 items-center space-x-2 flex'>
-						E-Commerce
-					</Link>
+        {/* Burger Button (Visible on Small Screens only) */}
+        <button
+          className="sm:hidden text-gray-300 focus:outline-none"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
 
-					<nav className='flex flex-wrap items-center gap-4'>
-						<Link
-							to={"/"}
-							className='text-gray-300 hover:text-emerald-400 transition duration-300
-					 ease-in-out'
-						>
-							Home
-						</Link>
-						{user && (
-							<Link
-								to={"/cart"}
-								className='relative group text-gray-300 hover:text-emerald-400 transition duration-300 
-							ease-in-out'
-							>
-								<ShoppingCart className='inline-block mr-1 group-hover:text-emerald-400' size={20} />
-								<span className='hidden sm:inline'>Cart</span>
-								{cart.length > 0 && (
-									<span
-										className='absolute -top-2 -left-2 bg-emerald-500 text-white rounded-full px-2 py-0.5 
-									text-xs group-hover:bg-emerald-400 transition duration-300 ease-in-out'
-									>
-										{cart.length}
-									</span>
-								)}
-							</Link>
-						)}
-						{isAdmin && (
-							<Link
-								className='bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
-								 transition duration-300 ease-in-out flex items-center'
-								to={"/secret-dashboard"}
-							>
-								<Lock className='inline-block mr-1' size={18} />
-								<span className='hidden sm:inline'>Dashboard</span>
-							</Link>
-						)}
+        {/* Navbar Links */}
+        <nav
+          className={`absolute sm:static top-14 left-0 w-full sm:w-auto sm:flex bg-gray-900 sm:bg-transparent p-4 sm:p-0 sm:space-x-4 transition-all duration-300 ${
+            menuOpen ? "block" : "hidden"
+          }`}
+        >
+          <Link to="/" className="flex items-center justify-center text-gray-300 hover:text-emerald-400 py-2 sm:py-0">
+            Home
+          </Link>
+          {user && (
+            <Link
+              to="/cart"
+              className="relative flex items-center justify-center text-gray-300 hover:text-emerald-400 py-2 sm:py-0"
+            >
+              <ShoppingCart className="inline-block mr-1" size={20} />
+              Cart
+              {cart.length > 0 && (
+                <span className="absolute -top-2 -left-2 bg-emerald-500 text-white rounded-full px-2 py-0.5 text-xs">
+                  {cart.length}
+                </span>
+              )}
+            </Link>
+          )}
+          {isAdmin && (
+            <Link
+              to="/secret-dashboard"
+              className="block bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-2 text-center rounded-md sm:inline-flex items-center"
+            >
+              <Lock className="inline-block mr-1" size={18} />
+              Dashboard
+            </Link>
+          )}
 
-						{user ? (
-							<button
-								className='bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
-						rounded-md flex items-center transition duration-300 ease-in-out'
-								onClick={logout}
-							>
-								<LogOut size={18} />
-								<span className='hidden sm:inline ml-2'>Log Out</span>
-							</button>
-						) : (
-							<>
-								<Link
-									to={"/signup"}
-									className='bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out'
-								>
-									<UserPlus className='mr-2' size={18} />
-									Sign Up
-								</Link>
-								<Link
-									to={"/login"}
-									className='bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 
-									rounded-md flex items-center transition duration-300 ease-in-out'
-								>
-									<LogIn className='mr-2' size={18} />
-									Login
-								</Link>
-							</>
-						)}
-					</nav>
-				</div>
-			</div>
-		</header>
-	);
+          {user ? (
+            <button
+              className="flex bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md sm:inline-flex justify-center items-center w-full"
+              onClick={logout}
+            >
+              <LogOut size={18} />
+              <span className="ml-2">Log Out</span>
+            </button>
+          ) : (
+            <>
+              <Link
+                to="/signup"
+                className="flex bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-md items-center sm:inline-flex"
+              >
+                <UserPlus className="mr-2" size={18} />
+                Sign Up
+              </Link>
+              <Link
+                to="/login"
+                className="flex bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-md items-center sm:inline-flex"
+              >
+                <LogIn className="mr-2" size={18} />
+                Login
+              </Link>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  );
 };
+
 export default Navbar;
