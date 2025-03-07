@@ -1,38 +1,41 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import axios from "../lib/axios";
+import { useState } from "react";
 import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const AnalyticsTab = () => {
+	// Mock data for analytics
 	const [analyticsData, setAnalyticsData] = useState({
-		users: 0,
-		products: 0,
-		totalSales: 0,
-		totalRevenue: 0,
+		users: 1200,
+		products: 250,
+		totalSales: 340,
+		totalRevenue: 12500,
 	});
-	const [isLoading, setIsLoading] = useState(true);
-	const [dailySalesData, setDailySalesData] = useState([]);
 
-	useEffect(() => {
-		const fetchAnalyticsData = async () => {
-			try {
-				const response = await axios.get("/analytics");
-				setAnalyticsData(response.data.analyticsData);
-				setDailySalesData(response.data.dailySalesData);
-			} catch (error) {
-				console.error("Error fetching analytics data:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
+	const [dailySalesData, setDailySalesData] = useState([
+		{ name: "Mon", sales: 50, revenue: 2000 },
+		{ name: "Tue", sales: 60, revenue: 2400 },
+		{ name: "Wed", sales: 40, revenue: 1600 },
+		{ name: "Thu", sales: 80, revenue: 3200 },
+		{ name: "Fri", sales: 30, revenue: 1200 },
+		{ name: "Sat", sales: 90, revenue: 3600 },
+		{ name: "Sun", sales: 70, revenue: 2800 },
+	]);
 
-		fetchAnalyticsData();
-	}, []);
+	// API call commented out
+	// useEffect(() => {
+	// 	const fetchAnalyticsData = async () => {
+	// 		try {
+	// 			const response = await axios.get("/analytics");
+	// 			setAnalyticsData(response.data.analyticsData);
+	// 			setDailySalesData(response.data.dailySalesData);
+	// 		} catch (error) {
+	// 			console.error("Error fetching analytics data:", error);
+	// 		}
+	// 	};
 
-	if (isLoading) {
-		return <div className="flex justify-center items-center h-screen text-3xl">Loading...</div>;
-	}
+	// 	fetchAnalyticsData();
+	// }, []);
 
 	return (
 		<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
