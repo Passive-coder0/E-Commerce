@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import dotenv from "dotenv";
+//Config Stripe Payment (Unused here)
 
 dotenv.config();
 

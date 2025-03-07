@@ -32,7 +32,7 @@ export const useProductStore = create((set) => ({
     }
   },
 
-  // Error here
+  // Error here (Fixed)
   fetchProductsByCategory: async (category) => {
     set({ loading: true });
     try {

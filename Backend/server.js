@@ -14,7 +14,9 @@ import paymentRoutes from "./routes/payment.route.js"
 import analyticsRoutes from "./routes/analytics.route.js"
 
 const allowedOrigins = [
-    "http://localhost:5174",  // Local frontend
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",  // Local frontend
     "https://e-commerce-mern-redis.netlify.app"  // Deployed frontend
 ];
 
@@ -27,13 +29,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true); // Allow request
+            callback(null, true);  // Allow requests without an origin
         } else {
-            callback(new Error("Not allowed by CORS")); // Block request
+            callback(new Error("Not allowed by CORS"));
         }
     },
     credentials: true,  // Allow cookies & authorization headers
+    optionsSuccessStatus: 200 // Fixes issues with legacy browsers
 }));
+
 app.use(express.json({limit:"10mb"}));
 app.use(cookieParser());
 

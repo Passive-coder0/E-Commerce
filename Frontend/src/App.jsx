@@ -18,7 +18,7 @@ import CartPage from "./pages/CartPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
-  const role = user?.user?.role ?? "customer";
+  const role = user?.user?.role ?? "customer";  //Customer by default
 
   // const { getCartItems } = useCartStore();
   useEffect(() => {
@@ -45,6 +45,7 @@ function App() {
       <div className="relative z-50 pt-20">
         <Navbar />
         <Routes>
+          {/* You can see homepage even when not logged in */}
           <Route path="/" element={<HomePage />} />
           <Route
             path="/signup"
