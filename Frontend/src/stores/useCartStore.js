@@ -46,11 +46,21 @@ export const useCartStore = create((set, get) => ({
 	clearCart: async () => {
 		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
 	},
+
+	// Error here
 	addToCart: async (product) => {
 		try {
-			await axios.post("/cart", { productId: product._id });
+			const token = localStorage.getItem("token"); // Ensure the token is retrieved
+			const headers = token ? { Authorization: `Bearer ${token}` } : {}; // Add token if it exists
+	
+			await axios.post(
+				"https://e-commerce-production-3024.up.railway.app/api/cart",
+				{ productId: product._id },
+				{ headers }
+			);
+	
 			toast.success("Product added to cart");
-
+	
 			set((prevState) => {
 				const existingItem = prevState.cart.find((item) => item._id === product._id);
 				const newCart = existingItem
@@ -60,11 +70,15 @@ export const useCartStore = create((set, get) => ({
 					: [...prevState.cart, { ...product, quantity: 1 }];
 				return { cart: newCart };
 			});
+	
 			get().calculateTotals();
 		} catch (error) {
-			toast.error(error.response.data.message || "An error occurred");
+			console.error("Error adding to cart:", error); // Debugging
+			toast.error(error.response?.data?.message || "An error occurred");
 		}
 	},
+	
+	
 	removeFromCart: async (productId) => {
 		await axios.delete(`/cart`, { data: { productId } });
 		set((prevState) => ({ cart: prevState.cart.filter((item) => item._id !== productId) }));

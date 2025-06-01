@@ -25,7 +25,7 @@ const CategoryPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Capitalize first letter */}
+          {/* Capitalizes first letter */}
           {category.charAt(0).toUpperCase() + category.slice(1)}
         </motion.h1>
 
@@ -47,6 +47,8 @@ const CategoryPage = () => {
             ))
           )}
         </motion.div>
+
+        {/* Go Back button */}
         <motion.div
           className="mt-10 flex justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
