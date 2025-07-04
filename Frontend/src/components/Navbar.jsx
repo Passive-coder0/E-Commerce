@@ -21,9 +21,9 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 w-full bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg z-40 border-b border-emerald-800">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* This is the Logo */}
-        <Link to="/" className="text-3xl font-bold text-emerald-400 flex items-center gap-2">
+        <Link to="/" className="text-xl md:text-3xl font-bold text-emerald-400 md:ml-2 flex items-center gap-2 md:gap-6">
           <img src={logo} alt="Logo Image" width="30px" height="30px" />
-          E-Commerce
+          Threadsmith Men’s Fashion
         </Link>
 
         {/* Burger Button (Visible on Small Screens only) */}
@@ -36,8 +36,10 @@ const Navbar = () => {
 
         {/* Navbar Links */}
         <nav
-          className={`absolute sm:static top-14 left-0 w-full sm:w-auto sm:flex bg-gray-900 sm:bg-transparent p-4 sm:p-0 sm:space-x-4 transition-all duration-300 ${
-            menuOpen ? "block" : "hidden"
+          className={`absolute sm:static top-14 left-0 w-full sm:w-auto sm:flex bg-gray-900 sm:bg-transparent p-4 sm:p-0 sm:space-x-4 transform transition-all duration-300 ease-in-out ${
+            menuOpen 
+              ? "block opacity-100 translate-y-0 scale-100 pointer-events-auto" 
+              : "block opacity-0 -translate-y-4 scale-95 pointer-events-none sm:block sm:opacity-100 sm:translate-y-0 sm:scale-100 sm:pointer-events-auto"
           }`}
         >
           <Link to="/" className="flex items-center justify-center text-gray-300 hover:text-emerald-400 py-2 sm:py-0">
