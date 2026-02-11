@@ -27,15 +27,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);  // Allow requests without an origin
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,  // Allow cookies & authorization headers
-    optionsSuccessStatus: 200 // Fixes issues with legacy browsers
+    origin: '*',          // Allows all origins
+    credentials: true,
+    optionsSuccessStatus: 200 // For legacy browsers
 }));
 
 app.use(express.json({limit:"10mb"}));

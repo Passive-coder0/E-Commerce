@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   //baseURL: "http://localhost:5000/api",
   
   // Online Hosting
-  baseURL:"https://e-commerce-production-d6f4.up.railway.app/api",
+  baseURL:"https://ommerce-passive-coder0186-pwft37jb.leapcell.dev/api",
   withCredentials: true, // Sends cookies to server
 });
 
