@@ -17,7 +17,7 @@ export const getFeaturedProducts = async (req, res) => {
 	try {
 		let featuredProducts = await redis.get("featured_products");
 		if (featuredProducts) {
-			return res.json(JSON.parse(featuredProducts));
+			return res.json({ products: JSON.parse(featuredProducts) });
 		}
 
 		// if not in redis, fetch from mongodb
@@ -33,7 +33,7 @@ export const getFeaturedProducts = async (req, res) => {
 
 		await redis.set("featured_products", JSON.stringify(featuredProducts));
 
-		res.json(featuredProducts);
+		res.json({ products: featuredProducts });
 	} catch (error) {
 		console.log("Error in getFeaturedProducts controller", error.message);
 		res.status(500).json({ message: "Server error", error: error.message });
@@ -113,7 +113,7 @@ export const getRecommendedProducts = async (req, res) => {
         },
     },
 ]);
-    res.json(products);
+    res.json({ products });
   } catch (error) {
     console.log("Error in getRecommendedProducts controller: ", error.message);
     res.status(500).json({ message: "Server error in getRecommendedProducts", error: error.message });
