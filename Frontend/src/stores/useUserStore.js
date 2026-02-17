@@ -51,9 +51,9 @@ export const useUserStore = create((set, get) => ({
 			const response = await axios.get("/auth/profile");
 			set({ user: response.data, checkingAuth: false });
 		} catch (error) {
-			console.log(error.message);
-			// Instead of setting user to null, set a default user
-			set({ user: { name: "Guest", role: "admin" }, checkingAuth: false });
+			console.log("Auth check failed:", error.message);
+			// User is not authenticated - set to null, not a default admin!
+			set({ user: null, checkingAuth: false });
 		}
 	},
 	

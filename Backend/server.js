@@ -17,7 +17,8 @@ const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",  // Local frontend
-    "https://e-commerce-mern-redis.netlify.app"  // Deployed frontend
+    "https://e-commerce-mern-redis.netlify.app",  // Old Deployed frontend link
+    "https://threadsmith.netlify.app"  // New Deployed frontend link
 ];
 
 dotenv.config()
@@ -27,7 +28,13 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: '*',          // Allows all origins
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("CORS not allowed"));
+        }
+    },
     credentials: true,
     optionsSuccessStatus: 200 // For legacy browsers
 }));
