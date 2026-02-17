@@ -17,7 +17,6 @@ const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:5174",
     "http://localhost:5175",  // Local frontend
-    "https://e-commerce-mern-redis.netlify.app",  // Old Deployed frontend link
     "https://threadsmith.netlify.app"  // New Deployed frontend link
 ];
 
@@ -28,7 +27,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: true,
+    origin: allowedOrigins,
     credentials: true,
 }));
 
