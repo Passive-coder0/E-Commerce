@@ -11,6 +11,11 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState("customer");
   const [menuOpen, setMenuOpen] = useState(false); // Controls the burger menu
 
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = "/login";
+  };
+
   useEffect(() => {
     if (user?.user?.role === "admin") {
       setIsAdmin("admin");
@@ -72,7 +77,7 @@ const Navbar = () => {
           {user ? (
             <button
               className="flex bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-md sm:inline-flex justify-center items-center w-full"
-              onClick={logout}
+              onClick={handleLogout}
             >
               <LogOut size={18} />
               <span className="ml-2">Log Out</span>

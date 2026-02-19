@@ -26,9 +26,18 @@ const app = express()
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// --- CORS setup ---
 app.use(cors({
     origin: allowedOrigins,
     credentials: true,
+    methods: ["GET","POST","PUT","DELETE","OPTIONS"], // allow all methods
+}));
+
+// Handle preflight OPTIONS requests for all routes
+app.options("*", cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
 }));
 
 app.use(express.json({limit:"10mb"}));

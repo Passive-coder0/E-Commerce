@@ -18,7 +18,7 @@ import CartPage from "./pages/CartPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
-  const role = user?.user?.role ?? "customer";  //Customer by default
+  // const role = user?.user?.role ?? "customer";  //Customer by default
 
   // const { getCartItems } = useCartStore();
   useEffect(() => {
