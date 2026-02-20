@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   
   // // Online Hosting
   baseURL:"https://ommerce-passive-coder0186-pwft37jb.leapcell.dev/api",
+  
   withCredentials: true, // Sends cookies to server
 });
 
