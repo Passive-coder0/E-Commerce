@@ -24,16 +24,18 @@ const storeRefreshToken = async (userId, refreshToken) => {
 };
 
 const setCookies = (res, accessToken, refreshToken) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("accessToken", accessToken, {
     httpOnly: true, // Prevents XSS Attacks
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // Prevents CSRF Attacks
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 15 * 60 * 1000, // 15 mins
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true, // Prevents XSS Attacks
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // Prevents CSRF Attacks
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 };
@@ -102,6 +104,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     const refreshToken = req.cookies.refreshToken;
     if (refreshToken) {
       const decoded = jwt.verify(
@@ -111,8 +114,16 @@ export const logout = async (req, res) => {
       await redis.del(`refresh_token:${decoded.userId}`);
     }
 
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    });
     res.json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller: " + error.message);
@@ -122,10 +133,11 @@ export const logout = async (req, res) => {
 // This wil lrefresh the access token
 export const refreshToken = async (req, res) => {
 try {
+  const isProduction = process.env.NODE_ENV === "production";
   const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
-    res.status(401).json({ message: "No refresh token provided"})
+    return res.status(401).json({ message: "No refresh token provided"})
   }
 
   const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -139,8 +151,8 @@ try {
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true, // Prevents XSS Attacks
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict", // Prevents CSRF Attacks
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 15 * 60 * 1000, // 15 mins
   });
 
